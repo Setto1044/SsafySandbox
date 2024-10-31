@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @Table(name = "Todos")
-public class TodoVo {
+public class Todo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -19,8 +19,7 @@ public class TodoVo {
     @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean completed;
 
-    public TodoVo(String content){
+    public Todo(String content){
         this.content = content;
-        this.completed = false;
     }
 }

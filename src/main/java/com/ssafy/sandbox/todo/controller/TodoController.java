@@ -4,7 +4,7 @@ import com.ssafy.sandbox.response.DeleteResponseEntity;
 import com.ssafy.sandbox.response.FetchResponseEntity;
 import com.ssafy.sandbox.response.GetResponseEntity;
 import com.ssafy.sandbox.response.PostResponseEntity;
-import com.ssafy.sandbox.todo.domain.TodoVo;
+import com.ssafy.sandbox.todo.domain.Todo;
 import com.ssafy.sandbox.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,8 +25,8 @@ public class TodoController {
     }
 
     @PostMapping("/todos")
-    public PostResponseEntity save( @RequestBody TodoVo todoVo){
-        TodoVo todo = service.save(todoVo);
+    public PostResponseEntity insertTodo(@RequestBody Todo todoVo){
+        Todo todo = service.insertTodo(todoVo);
         return new PostResponseEntity(todo.getId(), todo.isCompleted());
     }
 

@@ -1,6 +1,6 @@
 package com.ssafy.sandbox.todo.service;
 
-import com.ssafy.sandbox.todo.domain.TodoVo;
+import com.ssafy.sandbox.todo.domain.Todo;
 import com.ssafy.sandbox.todo.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +18,17 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public List<TodoVo> findAll() {
+    public List<Todo> findAll() {
         return repository.findAll();
     }
 
     @Override
-    public Optional<TodoVo> findById(int id) {
+    public Optional<Todo> findById(int id) {
         return repository.findById(id);
     }
 
     @Override
-    public TodoVo save(TodoVo todo) {
+    public Todo insertTodo(Todo todo) {
         return repository.save(todo);
     }
 
@@ -43,9 +43,9 @@ public class TodoServiceImpl implements TodoService{
     }
 
     @Override
-    public TodoVo updateTodo(int id) {
+    public Todo updateTodo(int id) {
          if(repository.existsById(id)){
-             TodoVo todo = repository.findById(id).get();
+             Todo todo = repository.findById(id).get();
              todo.setCompleted(!todo.isCompleted());
              repository.save(todo);
              return todo;
