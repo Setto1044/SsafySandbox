@@ -4,13 +4,8 @@ import lombok.*;
 
 @Getter
 @Setter
-@ToString
+@AllArgsConstructor
 public class PostResponseEntity {
     private int id;
     private boolean completed;
-
-    public PostResponseEntity(int id, boolean completed){
-        this.id = id;
-        this.completed = completed;
-    }
 }

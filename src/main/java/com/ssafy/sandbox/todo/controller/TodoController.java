@@ -1,17 +1,18 @@
 package com.ssafy.sandbox.todo.controller;
 
-import com.ssafy.sandbox.response.DeleteResponseEntity;
-import com.ssafy.sandbox.response.FetchResponseEntity;
 import com.ssafy.sandbox.response.GetResponseEntity;
 import com.ssafy.sandbox.response.PostResponseEntity;
 import com.ssafy.sandbox.todo.domain.Todo;
 import com.ssafy.sandbox.todo.service.TodoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin(origins = {"*", "*/*"}, methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH, RequestMethod.OPTIONS})
 public class TodoController {
+    private static final Logger logger = LoggerFactory.getLogger(TodoController.class);
     @Autowired
     private final TodoService service;
 
@@ -20,28 +21,27 @@ public class TodoController {
     }
 
     @GetMapping("/todos")
-    GetResponseEntity selectALl(){
-        return new GetResponseEntity(service.findAll());
+    public ResponseEntity<GetResponseEntity> selectAll() {
+        GetResponseEntity responseEntity = new GetResponseEntity(service.findAll());
+        logger.info(">> Serialized Response: {}", responseEntity);
+        return ResponseEntity.ok(responseEntity);
     }
 
     @PostMapping("/todos")
-    public PostResponseEntity insertTodo(@RequestBody Todo todoVo){
+    public ResponseEntity<PostResponseEntity> insertTodo(@RequestBody Todo todoVo) {
         Todo todo = service.insertTodo(todoVo);
-        return new PostResponseEntity(todo.getId(), todo.isCompleted());
+        return ResponseEntity.ok(new PostResponseEntity(todo.getId(), todo.isCompleted()));
     }
 
     @DeleteMapping("/todos/{todoId}")
-    public DeleteResponseEntity delete(@PathVariable int todoId){
-        int resultId = service.deleteById(todoId) ? todoId : -1;
-        return new DeleteResponseEntity(resultId);
+    public ResponseEntity<Void> delete(@PathVariable int todoId) {
+        service.deleteById(todoId);
+        return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/todos/{todoId}")
-    public FetchResponseEntity fetch(@PathVariable int todoId){
-        int resultId = service.updateTodo(todoId) != null ? todoId : -1;
-        return new FetchResponseEntity(resultId);
+    public ResponseEntity<Void> fetch(@PathVariable int todoId) {
+        service.updateTodo(todoId);
+        return ResponseEntity.noContent().build();
     }
-
-
-
 }

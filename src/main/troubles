@@ -15,3 +15,7 @@ Required request parameter 'content' for method parameter type String is not pre
 
 3. @DeleteMapping("/todos/{todoId}")의 {} 데이터를 받아올 때
 컨트롤러 파라미터에 @RequestParam을 쓰는 것이 아니라 @PathVariable 어노테이션을 붙여 접근해야 함
+
+4. ResponseEntity<T> 전달
+DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: No acceptable representation
+ResponseEntity 제네릭 타입에 Getter가 없을 경우 JSON으로 제대로 파싱하지 못하는 문제 발생 -> Getter 필수

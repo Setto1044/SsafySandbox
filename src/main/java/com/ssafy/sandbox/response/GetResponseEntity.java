@@ -6,11 +6,9 @@ import lombok.*;
 
 import java.util.List;
 
-@NoArgsConstructor
 @AllArgsConstructor
-@Getter
 @Setter
-@ToString
+@Getter
 public class GetResponseEntity {
     private List<Todo> todos;
 }
