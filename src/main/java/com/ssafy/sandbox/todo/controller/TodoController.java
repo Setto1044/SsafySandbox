@@ -1,7 +1,7 @@
 package com.ssafy.sandbox.todo.controller;
 
-import com.ssafy.sandbox.response.GetResponseEntity;
-import com.ssafy.sandbox.response.PostResponseEntity;
+import com.ssafy.sandbox.todo.response.GetResponseEntity;
+import com.ssafy.sandbox.todo.response.PostResponseEntity;
 import com.ssafy.sandbox.todo.domain.Todo;
 import com.ssafy.sandbox.todo.service.TodoService;
 import org.slf4j.Logger;
