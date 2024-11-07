@@ -42,3 +42,7 @@ offset 방식의 페이징은 페이지 1부터 제공을 하는데, Pageable �
 9. 페이징 cursor 방식 인덱스 문제
 요청 url이 지정한 id의 데이터부터 가져오려면
 GreaterThan이 아닌 GreaterThanEqual을 사용해 해당 id도 포함 필요
+
+10. QueryDsl 의존성 추가 시 jakatra 접미사 붙여야 에러 발생하지 않음
+이전: implementation 'com.querydsl:querydsl-jpa:5.0.0'
+이후: implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
