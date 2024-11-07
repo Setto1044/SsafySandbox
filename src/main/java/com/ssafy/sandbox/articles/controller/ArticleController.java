@@ -4,6 +4,8 @@ import com.ssafy.sandbox.articles.dto.ArticleCursorPagingResponseDto;
 import com.ssafy.sandbox.articles.dto.ArticleOffsetPagingResponseDto;
 import com.ssafy.sandbox.articles.dto.ArticlePostRequestDto;
 import com.ssafy.sandbox.articles.service.ArticleService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,18 +18,19 @@ public class ArticleController {
     }
 
     @GetMapping("/paging/offset")
-    public ArticleOffsetPagingResponseDto getArticlesWithOffset(@RequestParam int size, @RequestParam int page) {
-        return service.getArticlesWithOffsetPaging(page, size);
+    public ResponseEntity<ArticleOffsetPagingResponseDto> getArticlesWithOffset(@RequestParam int size, @RequestParam int page) {
+        return ResponseEntity.ok(service.getArticlesWithOffsetPaging(page, size));
     }
 
     @GetMapping("/paging/cursor")
-    public ArticleCursorPagingResponseDto getArticlesWithCursor(@RequestParam int size, @RequestParam int cursorId) {
-        return service.getArticlesWithCursorPaging(cursorId, size);
+    public ResponseEntity<ArticleCursorPagingResponseDto> getArticlesWithCursor(@RequestParam int size, @RequestParam int cursorId) {
+        return ResponseEntity.ok(service.getArticlesWithCursorPaging(cursorId, size));
     }
 
     @PostMapping("/make")
-    public void addArticles(@RequestBody ArticlePostRequestDto dto) {
+    public ResponseEntity<Void> addArticles(@RequestBody ArticlePostRequestDto dto) {
         service.saveArticles(dto.getArticles());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
