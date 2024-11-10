@@ -1,4 +1,4 @@
-package com.ssafy.sandbox.response;
+package com.ssafy.sandbox.todo.response;
 
 import lombok.*;
 

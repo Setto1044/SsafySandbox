@@ -19,3 +19,30 @@ Required request parameter 'content' for method parameter type String is not pre
 4. ResponseEntity<T> 전달
 DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpMediaTypeNotAcceptableException: No acceptable representation
 ResponseEntity 제네릭 타입에 Getter가 없을 경우 JSON으로 제대로 파싱하지 못하는 문제 발생 -> Getter 필수
+
+5. gitignore 누락으로 인한 불필요 파일 업로드 문제
+초기 스프링 initializer를 통해 생성한 프로젝트는 깃 이그노어 파일이 설정되어있음
+이를 중간에 깃 푸쉬 누락하여 불필요 파일이 업로드 되었을 경우
+- 깃 이그노어 파일 재설정 후 업로드
+- 현재 깃 포인터를 불필요 파일이 존재하기 이전으로 롤백
+- 깃 스테이징에 올라온 변경 사항을 잠시 내린 후, 깃 이그노어 파일 등록
+- 등록한 깃 이그노어 파일에 의해 스테이징 되었던 불필요 파일이 제어됨
+
+6. UTC 시간
+IOS 8601 형식의 Timestamp 시간
+한국 시각은 UTC 시간에 9시간을 더해 표기함
+
+7. JPA는 CamelCase로 네이밍된 VO 멤버 이름을 snake_case로 변경해 처리한다
+java.sql.SQLSyntaxErrorException: Unknown column 'a1_0.created_at' in 'field list'
+이를 위해 @Column(name = "createdAt") 와 같이 이름을 명시해야 한다.
+
+8. 페이징 offset 방식 인덱스 문제
+offset 방식의 페이징은 페이지 1부터 제공을 하는데, Pageable 객체의 page는 0부터 시작하기에 이를 보정해줘야함
+
+9. 페이징 cursor 방식 인덱스 문제
+요청 url이 지정한 id의 데이터부터 가져오려면
+GreaterThan이 아닌 GreaterThanEqual을 사용해 해당 id도 포함 필요
+
+10. QueryDsl 의존성 추가 시 jakatra 접미사 붙여야 에러 발생하지 않음
+이전: implementation 'com.querydsl:querydsl-jpa:5.0.0'
+이후: implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
