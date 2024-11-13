@@ -51,9 +51,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     private String generateAuthCode() {
-        Random random = new Random();
-        int code = random.nextInt(1000000);
-        return String.valueOf(code);
+        int code = new Random().nextInt(1000000);
+        return String.format("%06d", code);
     }
 
     private void sendEmail(String to, String authCode) throws MessagingException {

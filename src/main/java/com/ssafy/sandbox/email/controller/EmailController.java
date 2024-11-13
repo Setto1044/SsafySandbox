@@ -19,7 +19,7 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<?> sendEmail(@RequestBody @Valid EmailRequestDto emailRequest) {
+    public ResponseEntity<EmailSendResponseDto> sendEmail(@RequestBody @Valid EmailRequestDto emailRequest) {
         boolean isOk = emailService.sendEmailAuthCode(emailRequest);
         EmailSendResponseDto emailSendResponseDto = EmailSendResponseDto.of(isOk);
         return ResponseEntity.ok(emailSendResponseDto);
@@ -31,7 +31,7 @@ public class EmailController {
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<?> verifyAuthCode(@RequestBody @Valid EmailAuthRequestDto emailAuthRequest) {
+    public ResponseEntity<EmailAuthResponseDto> verifyAuthCode(@RequestBody @Valid EmailAuthRequestDto emailAuthRequest) {
         boolean isSuccess = emailService.verifyEmailAuthCode(emailAuthRequest);
         EmailAuthResponseDto emailAuthResponseDto = EmailAuthResponseDto.of(isSuccess);
         return ResponseEntity.ok(emailAuthResponseDto);
