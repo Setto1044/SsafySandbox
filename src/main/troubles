@@ -55,6 +55,10 @@ properties 설정 파일에 작성한 정보를 JavaMailSender 빈 객체에 넣
 
 12. MimeMessageHelper 네이버 메일 문제
 MimeMessageHelper의 메일 발송 주소(from), 수신 주소(to) 모두 지정해야 함
+org.springframework.mail.MailSendException:
+Failed messages: org.eclipse.angus.mail.smtp.SMTPSendFailedException:
+[port] The sender address is unauthorized ~~ - nsmtp
+
 
 13. 이메일 인증 코드 실패에 따른 응답 코드
 400번대 클라이언트 잘못으로 전송하는것이 맞다 생각했으나,
