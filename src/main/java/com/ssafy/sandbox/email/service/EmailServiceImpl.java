@@ -10,6 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -20,8 +21,7 @@ public class EmailServiceImpl implements EmailService {
     @Value("${spring.mail.username}")
     private String fromEmail;
     private final JavaMailSender mailSender;
-    private final Map<String, String> authCodeStorage = new HashMap<>();
-
+    private final Map<String, EmailRequestDto> emailAuthCodeStorage = new HashMap<>();
 
     public EmailServiceImpl(JavaMailSender mailSender) {
         this.mailSender = mailSender;
@@ -31,7 +31,9 @@ public class EmailServiceImpl implements EmailService {
     public boolean sendEmailAuthCode(EmailRequestDto emailRequestDto) {
         String email = emailRequestDto.getEmail();
         String authCode = generateAuthCode();
-        authCodeStorage.put(email, authCode);
+        emailRequestDto.setAuthExpireDate(LocalDateTime.now().plusMinutes(5));
+        emailRequestDto.setAuthCode(authCode);
+        emailAuthCodeStorage.put(email, emailRequestDto);
 
         try {
             sendEmail(email, authCode);
@@ -40,14 +42,27 @@ public class EmailServiceImpl implements EmailService {
             log.error("Failed to Send Email to: {}", email);
             return false;
         }
-
     }
 
     @Override
     public boolean verifyEmailAuthCode(EmailAuthRequestDto emailAuthRequestDto) {
         String toEmail = emailAuthRequestDto.getEmail();
-        String authCode = emailAuthRequestDto.getAuthentication();
-        return authCode.equals(authCodeStorage.getOrDefault(toEmail, ""));
+        String inputAuthCode = emailAuthRequestDto.getAuthentication();
+        EmailRequestDto storedRequest = emailAuthCodeStorage.get(toEmail);
+
+        if (storedRequest == null) {
+            return false;
+        }
+        if (LocalDateTime.now().isAfter(storedRequest.getAuthExpireDate())) {
+            emailAuthCodeStorage.remove(toEmail);
+            return false;
+        }
+
+        boolean isVerified = inputAuthCode.equals(storedRequest.getAuthCode());
+        if (isVerified) {
+            emailAuthCodeStorage.remove(toEmail);
+        }
+        return isVerified;
     }
 
     private String generateAuthCode() {

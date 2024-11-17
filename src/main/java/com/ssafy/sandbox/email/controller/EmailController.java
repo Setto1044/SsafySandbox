@@ -23,11 +23,6 @@ public class EmailController {
         boolean isOk = emailService.sendEmailAuthCode(emailRequest);
         EmailSendResponseDto emailSendResponseDto = EmailSendResponseDto.of(isOk);
         return ResponseEntity.ok(emailSendResponseDto);
-        /*if (isOk) {
-            return ResponseEntity.ok(emailSendResponseDto);
-        } else {
-            return ResponseEntity.badRequest().body(emailSendResponseDto);
-        }*/
     }
 
     @PostMapping("/authentication")
@@ -35,10 +30,5 @@ public class EmailController {
         boolean isSuccess = emailService.verifyEmailAuthCode(emailAuthRequest);
         EmailAuthResponseDto emailAuthResponseDto = EmailAuthResponseDto.of(isSuccess);
         return ResponseEntity.ok(emailAuthResponseDto);
-        /*if(isSuccess){
-            return ResponseEntity.ok(emailAuthResponseDto);
-        } else{
-            return ResponseEntity.badRequest().body(emailAuthResponseDto);
-        }*/
     }
 }
