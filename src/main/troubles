@@ -46,3 +46,20 @@ GreaterThan이 아닌 GreaterThanEqual을 사용해 해당 id도 포함 필요
 10. QueryDsl 의존성 추가 시 jakatra 접미사 붙여야 에러 발생하지 않음
 이전: implementation 'com.querydsl:querydsl-jpa:5.0.0'
 이후: implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
+11. JavaMailSender
+Spring Framework가 제공하는 이메일 발송 인터페이스
+SMTP 프로토콜 통신으로 이메일 발송
+HTML 이메일, 첨부파일 처리 지원
+properties 설정 파일에 작성한 정보를 JavaMailSender 빈 객체에 넣어 사용할 수 있도록 지원
+
+12. MimeMessageHelper 네이버 메일 문제
+MimeMessageHelper의 메일 발송 주소(from), 수신 주소(to) 모두 지정해야 함
+org.springframework.mail.MailSendException:
+Failed messages: org.eclipse.angus.mail.smtp.SMTPSendFailedException:
+[port] The sender address is unauthorized ~~ - nsmtp
+
+
+13. 이메일 인증 코드 실패에 따른 응답 코드
+400번대 클라이언트 잘못으로 전송하는것이 맞다 생각했으나,
+인증코드 불일치가 잘못된 요청은 아님
